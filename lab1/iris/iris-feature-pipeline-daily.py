@@ -1,12 +1,11 @@
 import os
 import modal
-    
-BACKFILL=False
-LOCAL=True
+
+LOCAL=False
 
 if LOCAL == False:
    stub = modal.Stub()
-   image = modal.Image.debian_slim().pip_install(["hopsworks","joblib","seaborn","sklearn","dataframe-image"]) 
+   image = modal.Image.debian_slim().pip_install(["hopsworks==3.0.4"]) 
 
    @stub.function(image=image, schedule=modal.Period(days=1), secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
    def f():
@@ -56,7 +55,6 @@ def get_random_iris_flower():
     return iris_df
 
 
-
 def g():
     import hopsworks
     import pandas as pd
@@ -64,16 +62,9 @@ def g():
     project = hopsworks.login()
     fs = project.get_feature_store()
 
-    if BACKFILL == True:
-        iris_df = pd.read_csv("https://repo.hops.works/master/hopsworks-tutorials/data/iris.csv")
-    else:
-        iris_df = get_random_iris_flower()
+    iris_df = get_random_iris_flower()
 
-    iris_fg = fs.get_or_create_feature_group(
-        name="iris_modal",
-        version=1,
-        primary_key=["sepal_length","sepal_width","petal_length","petal_width"], 
-        description="Iris flower dataset")
+    iris_fg = fs.get_feature_group(name="iris_modal",version=1)
     iris_fg.insert(iris_df, write_options={"wait_for_job" : False})
 
 if __name__ == "__main__":
