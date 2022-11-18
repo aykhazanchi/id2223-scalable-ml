@@ -20,6 +20,7 @@ def g():
     from sklearn.metrics import accuracy_score
     from sklearn.metrics import confusion_matrix
     from sklearn.metrics import classification_report
+    from sklearn.ensemble import RandomForestClassifier
     import seaborn as sns
     from matplotlib import pyplot
     from hsml.schema import Schema
@@ -36,13 +37,13 @@ def g():
     try: 
         feature_view = fs.get_feature_view(name="titanic_modal", version=1)
     except:
-        titanic_fg = fs.get_feature_group(name="titanic_modal", version=1)
-        query = titanic_fg.select_all()
+        titanic_fg = fs.get_feature_group(name="titanic_modal", version=2)
+        query = titanic_fg.select_except(['passengerid'])
         feature_view = fs.create_feature_view(name="titanic_modal",
-                                          version=1,
-                                          description="Read from Titanic dataset",
-                                          labels=["survived"],
-                                          query=query)    
+                                            version=1,
+                                            description="Read from Titanic dataset",
+                                           labels=["survived"],
+                                           query=query)    
 
     # You can read training data, randomly split into train/test sets of features (X) and labels (y)        
     X_train, X_test, y_train, y_test = feature_view.train_test_split(0.2)
@@ -50,13 +51,15 @@ def g():
     # In general, a small learning rate and large number of estimators = more accurate XGBoost models
     # Reference for tuning: https://www.kaggle.com/code/alexisbcook/xgboost?scriptVersionId=79127842&cellId=9
     # Train our model with the XGBoost algorithm using our features (X_train) and labels (y_train)
-    model = XGBClassifier(n_estimators=500, learning_rate=0.7)
-    model.fit(X_train, y_train.values.ravel(), early_stopping_rounds=5, eval_set=[(X_test, y_test)], verbose=False)
+    #model = XGBClassifier(n_estimators=500, learning_rate=0.4)
+    #model.fit(X_train, y_train.values.ravel(), early_stopping_rounds=10, eval_set=[(X_test, y_test)], verbose=False)
+    model = RandomForestClassifier()
+    model.fit(X_train, y_train.values.ravel())
 
     # Evaluate model performance using the features from the test set (X_test)
     y_pred = model.predict(X_test)
 
-    # Compare predictions (y_pred) with the labels in the test set (y_test)
+    # Compare predictions (y_pred) with the labels in the test setx (y_test)
     metrics = classification_report(y_test, y_pred, output_dict=True)
     results = confusion_matrix(y_test, y_pred)
 
