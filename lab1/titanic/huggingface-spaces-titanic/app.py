@@ -19,21 +19,20 @@ model = joblib.load(model_dir + "/titanic_model.pkl")
 def titanic(age, sex, pclass):
     input_list = []
     
-    input_list.append(int(age))
+    # Bin input age to bin index of range
+    if age > 0 and age <= 20:
+        input_list.append(0)
+    elif age > 20 and age <= 50:
+        input_list.append(1)
+    elif age > 50 and age <= 75:
+        input_list.append(2)
+    elif age > 75:
+        input_list.append(3)
+    else:
+        input_list.append(0) # negative age changes to zero
+
     input_list.append(int(sex)) # value returned by dropdown is index of option selected
     input_list.append(int(pclass+1)) # index starts at 0 so increment by 1
-
-    # Bin input age to bin index of range
-    if input_list[0] > 0 and input_list[0] <= 20:
-        input_list[0] = 0
-    elif input_list[0] > 20 and input_list[0] <= 50:
-        input_list[0] = 1
-    elif input_list[0] > 50 and input_list[0] <= 75:
-        input_list[0] = 2
-    elif input_list[0] > 75:
-        input_list[0] = 3
-    else:
-        print("Incorrect age value set. Try again.")
 
     print(input_list)
     # 'res' is a list of predictions returned as the label.
