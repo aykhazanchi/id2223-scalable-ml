@@ -8,20 +8,22 @@ def generate_passenger(survived, passenger_id):
     Returns a single passenger as a single row in a DataFrame
     """
     import pandas as pd
+    import numpy as np
     import random
 
-    # TODO: we could get the bins from the original dataset (in 'g()', if we set the labels in feature pipeline)
-    #  then create a random 0-100 and set the bin from there
+    bins = [-np.infty, 20, 25, 30, 40, np.infty] # use same bins as in feature definition!
     age_bin_min = 0
-    age_bin_max = 3
+    age_bin_max = len(bins) - 1
 
     random_age_bin = random.randint(age_bin_min, age_bin_max)
     random_sex = random.randint(0, 1)
+    random_embarked = random.randint(0, 2)
     random_pclass = random.randint(1, 3)
 
     passenger_df = pd.DataFrame({"passengerid": [passenger_id],
                                  "age": [random_age_bin],
                                  "sex": [random_sex],
+                                 "embarked": [random_embarked],
                                  "pclass": [random_pclass]})
 
     passenger_df['survived'] = survived

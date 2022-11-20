@@ -6,3 +6,4 @@ dataframe-image
 modal-client
 gradio
 xgboost
+numpy

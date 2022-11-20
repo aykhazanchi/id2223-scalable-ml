@@ -16,23 +16,14 @@ model_dir = model.download()
 model = joblib.load(model_dir + "/titanic_model.pkl")
 
 
-def titanic(age, sex, pclass):
+def titanic(age, sex, pclass, embarked):
     input_list = []
     
-    # Bin input age to bin index of range
-    if age > 0 and age <= 20:
-        input_list.append(0)
-    elif age > 20 and age <= 50:
-        input_list.append(1)
-    elif age > 50 and age <= 75:
-        input_list.append(2)
-    elif age > 75:
-        input_list.append(3)
-    else:
-        input_list.append(0) # negative age changes to zero
-
+    bins = [-np.infty, 20, 25, 30, 40, np.infty] # use same bins as in feature definition!
+    input_list.append(int(np.digitize([age], bins)[0]))
     input_list.append(int(sex)) # value returned by dropdown is index of option selected
     input_list.append(int(pclass+1)) # index starts at 0 so increment by 1
+    input_list.append(int(embarked))
 
     print(input_list)
     # 'res' is a list of predictions returned as the label.
@@ -59,6 +50,7 @@ demo = gr.Interface(
         gr.inputs.Number(default=1, label="Age"),
         gr.inputs.Dropdown(choices=["Male", "Female"], type="index", label="Sex"),
         gr.inputs.Dropdown(choices=["Class 1","Class 2","Class 3"], type="index", label="Pclass"),
+        gr.inputs.Dropdown(choices=["S", "C", "Q"], type="index", label="Embarked"),
         ],
     outputs=gr.Image(type="pil"))
 
