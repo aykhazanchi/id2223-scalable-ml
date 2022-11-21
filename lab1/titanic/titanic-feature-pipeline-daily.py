@@ -1,6 +1,6 @@
 import modal
 
-LOCAL = True
+LOCAL = False
 
 
 def generate_passenger(survived, passenger_id):

@@ -1,7 +1,7 @@
 import os
 import modal
 
-LOCAL = True
+LOCAL = False
 
 
 def g():
