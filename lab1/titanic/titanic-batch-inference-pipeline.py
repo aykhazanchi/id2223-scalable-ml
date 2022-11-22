@@ -100,7 +100,7 @@ if not LOCAL:
         "hopsworks==3.0.4", "seaborn", "joblib", "scikit-learn", "xgboost", "dataframe-image"])
 
     @stub.function(image=image, schedule=modal.Period(days=1), secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
-    def f():
+    def f_batch():
         g()
 
 
@@ -108,6 +108,4 @@ if __name__ == "__main__":
     if LOCAL:
         g()
     else:
-        with stub.run():
-            f()
-            
+        stub.deploy("f_batch")

@@ -77,6 +77,5 @@ if __name__ == "__main__":
     if LOCAL:
         g()
     else:
-        with stub.run():
-            f()
+        stub.deploy("f")
             
