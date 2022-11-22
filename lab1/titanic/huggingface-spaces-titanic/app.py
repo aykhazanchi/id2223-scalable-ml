@@ -34,10 +34,7 @@ def titanic(age, sex, pclass, embarked):
     # the first element.
     print(res[0]) # 0/1 
     # below is just for testing
-    if res[0] == 0: #ded
-        passenger_url = "https://media.istockphoto.com/id/157612035/sv/foto/shipwreck.jpg?s=612x612&w=0&k=20&c=BSVml8_SqgvSmEijAprhniyp_Wa_l5qIIVIxhmmBgBQ="
-    else:
-        passenger_url = "https://i.chzbgr.com/full/5420028160/hD88BD9FE/like-a-boss"
+    passenger_url = "https://raw.githubusercontent.com/aykhazanchi/id2223-scalable-ml/master/lab1/titanic/assets/" + str(res[0]) + ".jpg"
     img = Image.open(requests.get(passenger_url, stream=True).raw)            
     return img
         

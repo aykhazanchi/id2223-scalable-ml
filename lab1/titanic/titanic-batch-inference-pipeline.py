@@ -14,8 +14,8 @@ def g():
     import seaborn as sns
     import requests
 
-    dead_url = "https://media.istockphoto.com/id/157612035/sv/foto/shipwreck.jpg?s=612x612&w=0&k=20&c=BSVml8_SqgvSmEijAprhniyp_Wa_l5qIIVIxhmmBgBQ="
-    alive_url = "https://i.chzbgr.com/full/5420028160/hD88BD9FE/like-a-boss"
+    dead_url = "https://raw.githubusercontent.com/aykhazanchi/id2223-scalable-ml/master/lab1/titanic/assets/0.jpg"
+    alive_url = "https://raw.githubusercontent.com/aykhazanchi/id2223-scalable-ml/master/lab1/titanic/assets/1.jpg"
 
     project = hopsworks.login()
     fs = project.get_feature_store()
