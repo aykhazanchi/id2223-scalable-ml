@@ -11,7 +11,7 @@ def generate_passenger(survived, passenger_id):
     import numpy as np
     import random
 
-    bins = [-np.infty, 20, 25, 30, 40, np.infty] # use same bins as in feature definition!
+    bins = [-np.infty, 20, 25, 29, 30, 40, np.infty] # use same bins as in feature definition!
     age_bin_min = 0
     age_bin_max = len(bins) - 1
 

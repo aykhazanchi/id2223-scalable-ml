@@ -19,7 +19,7 @@ model = joblib.load(model_dir + "/titanic_model.pkl")
 def titanic(age, sex, pclass, embarked):
     input_list = []
     
-    bins = [-np.infty, 20, 25, 30, 40, np.infty] # use same bins as in feature definition!
+    bins = [-np.infty, 20, 25, 29, 30, 40, np.infty] # use same bins as in feature definition!
     input_list.append(int(np.digitize([age], bins)[0]))
     input_list.append(int(sex)) # value returned by dropdown is index of option selected
     input_list.append(int(pclass+1)) # index starts at 0 so increment by 1

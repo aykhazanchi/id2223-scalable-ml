@@ -19,7 +19,7 @@ titanic_df['Embarked'] = titanic_df['Embarked'].fillna(titanic_df['Embarked'].mo
 titanic_df['Embarked'] = titanic_df['Embarked'].replace(['S', 'C', 'Q'], [0, 1, 2])
 
 # Interpolate missing Age values and create bins
-bins = [-np.infty, 20, 25, 30, 40, np.infty]
+bins = [-np.infty, 20, 25, 29, 30, 40, np.infty]
 titanic_df['Age'] = titanic_df['Age'].fillna(titanic_df['Age'].mean())
 titanic_df['Age'] = pd.cut(x=titanic_df['Age'], bins=bins, labels=False)
 
