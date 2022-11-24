@@ -65,10 +65,10 @@ _User interface links (Hugging Face)_
 
 ### Dataset preparation
 After some initial testing we chose to use the following features
-Passenger age (binned using the following thresholds: 20, 25, 29, 30, 40)
-Passenger sex (converted to a numeric value, 0 for male or 1 for female)
-Passenger class (1st, 2nd, or 3rd)
-Passenger embarkation port (converted to a numeric value, 0 for “S”, 1 for “C”, or 2 for “Q”)
+* Passenger age (binned using the following thresholds: 20, 25, 29, 30, 40)
+* Passenger sex (converted to a numeric value, 0 for male or 1 for female)
+* Passenger class (1st, 2nd, or 3rd)
+* Passenger embarkation port (converted to a numeric value, 0 for “S”, 1 for “C”, or 2 for “Q”)
 
 Missing values for the passengers’ ages and for the embarkation port were imputed using the mean and mode, respectively.
 
