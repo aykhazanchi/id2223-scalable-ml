@@ -26,11 +26,13 @@ Model training is WIP, the current iteration is available for testing at https:/
 * We lost a considerable amount of time due to not having enough resources from Colab on a free account, alternatives tried
     * Kaggle (would have required to run with a custom container since we had a lot of dependency version issues, also random disconnects)
     * Modal (kept timing out even when setting function timeout to 3h, which is the maximum)
-    * We tried to work with a "smaller" model (whisper-base, trained/tuned model with 2000 steps [here](https://huggingface.co/rscolati/whisper-base-sv)) but the time did not change considerably and the performance seemed worse (WER around 10% worse after comparable training)
+* We tried to work with a "smaller" model (whisper-base, trained/tuned model with 2000 steps [here](https://huggingface.co/rscolati/whisper-base-sv)) but the time did not change considerably and the performance seemed worse (WER around 10% worse after comparable training)
 
 ## Interface
 
-TODO:
-- implement HF interface (lab2/huggingface-whisper-sv or something)
-- link(s)
-- description
+TODO: short description
+
+Link(s)
+- https://huggingface.co/spaces/rscolati/whisper-sv
+
+Implemented in [huggingface-spaces-whisper-sv](./huggingface-spaces-whisper-sv)
