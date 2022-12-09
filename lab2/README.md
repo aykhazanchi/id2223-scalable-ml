@@ -4,11 +4,11 @@ TODO: short description
 
 ## Interface
 
-We implemented a simple interface which allows to create a transcript from an uploaded or recorded audio file using the deployed model.
+We implemented a simple interface which allows to create a transcript from an uploaded or recorded audio file using the (latest) deployed model.
 
 The interface app is implemented in [huggingface-spaces-whisper-sv](./huggingface-spaces-whisper-sv), and available online.
 
-Link(s)
+Link(s).
 - https://huggingface.co/spaces/rscolati/whisper-sv
 
 ## Notebooks (Implementation)
@@ -28,16 +28,21 @@ We followed the main steps (data download, conversion, and splits) and created a
 
 ### Training
 
-TODO: short description of what the notebook does
+For the training we followed moslty the proposed implementation using Colab. We ran into several issues, moslty due to limited compute time and resources, and considered and tried some alternative approaches wrt. model size and alternative platforms (see [Notes, problems, and alternative approaches](#notes-problems-and-alternative-approaches)).
 
-Model training is WIP, the current iteration is available for testing at https://huggingface.co/rscolati/whisper-small-sv (should be public).
+In the final implementation we changed the training parameters slightly, setting 2000 optimization steps and generating a checkpoint after every 500 steps. Model (and metrics during training) is available online.
+
+Links:
+- https://huggingface.co/rscolati/whisper-small-sv
 
 ### Notes, problems, and alternative approaches
 
-* We decided to split data preparation from training, since we had to resume from checkpoints often due to Colab limitations. This way we can prepare the data once and re-use it.
-* Since push-to-hub seems broken (might be a Git LFS issue) we used Google Drive to store the output (checkpoints and models) as to not lose the state whenever Colab disconnects.
-* The push-to-hub is done manually since Git seems to have problems when pushing from Google Drive.
-* We lost a considerable amount of time due to not having enough resources from Colab on a free account, as alternatives we tried
-    * Kaggle (would have required to run with a custom container since we had a lot of dependency version issues, also random disconnects)
-    * Modal (kept timing out even when setting function timeout to 3h, which is the maximum)
-* We tried to work with a "smaller" model (whisper-base, trained/tuned model with 2000 steps [here](https://huggingface.co/rscolati/whisper-base-sv)) but the time did not change considerably and the performance seemed worse (WER around 10% worse after comparable training)
+The main problem we encountered was the size of the dataset and model (and thus training time), and the time and resource limitations on free Google Colab accounts. Since we had to use checkpoints and split the training in separate runs, we made some changes to the original proposed notebook.
+* We decided to split data preparation from training so we could prepare the data once and re-use it, storing it to Google Drive.
+* Since the builtin push-to-hub functionality seemed broken (might be a Git LFS issue) we used Google Drive to store the output (checkpoints and models) as to not lose the state whenever Colab disconnected. Data was then pushed manually.
+
+Since we lost a considerable amount of time due to Colab's resource quotas we explored some alternatives, namely Kaggle and Modal, but we decided to keep using Colab since we were running into similar and other issues with both platforms.
+* Kaggle would have required us to run with a custom container since we had a lot of dependency version issues, and we experienced lots of random disconnects during training.
+* Modal kept timing out even when setting function timeout to 3h, which is the maximum
+
+We also tried to work with a smaller pre-trained model (whisper-base), but the required time did not change considerably and the performance seemed worse. The word error rate was around 10% worse after comparable training, a trained model (with 2000 steps) is available [here](https://huggingface.co/rscolati/whisper-base-sv).
