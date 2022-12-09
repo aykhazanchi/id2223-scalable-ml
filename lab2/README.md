@@ -30,9 +30,9 @@ We followed the main steps (data download, conversion, and splits) and created a
 
 For the training we followed moslty the proposed implementation using Colab. We ran into several issues, moslty due to limited compute time and resources, and considered and tried some alternative approaches wrt. model size and alternative platforms (see [Notes, problems, and alternative approaches](#notes-problems-and-alternative-approaches)).
 
-In the final implementation we changed the training parameters slightly, setting 2000 optimization steps and generating a checkpoint after every 500 steps. Model (and metrics during training) is available online.
+In the final implementation we changed the training parameters slightly, setting 2000 optimization steps and generating a checkpoint after every 500 steps. Model (and metrics during training) is available online, word error rate as measured during evaluation was 19.64%.
 
-Links:
+Link(s):
 - https://huggingface.co/rscolati/whisper-small-sv
 
 ### Notes, problems, and alternative approaches
