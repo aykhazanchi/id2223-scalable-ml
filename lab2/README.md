@@ -1,6 +1,6 @@
 # ID2223 - Lab 2
 
-The goal of the assignment was to fine-tune a pre-trained transformer model, Whisper, to transcribe Swedish language audio (or audio of our mother tongue) to text. We chose to transcribe the Swedish language.
+The goal of the assignment was to fine-tune a pre-trained transformer model, Whisper, to transcribe Swedish language audio (or audio of our mother tongue) to text. We chose to transcribe the Swedish language. The data preparation and model training are implemented using Google Colab notebooks, and the user interface was implemented as a Huggingface space using Gradio acting as inference pipeline. The implementation of the data preparation and training pipelines and the interface are described below.
 
 ## Interface
 
@@ -14,8 +14,8 @@ The interface app is implemented in [huggingface-spaces-whisper-sv](./huggingfac
 ## Implementation (Notebooks)
 
 The data preparation and training are implemented in the following notebooks.
-* [data_prep.ipynb](./data_prep.ipynb) -- Data preparation
-* [whisper_sv.ipynb](./whisper_sv.ipynb) -- Training
+* [data_prep.ipynb](./data_prep.ipynb) -- Data preparation pipeline
+* [whisper_sv.ipynb](./whisper_sv.ipynb) -- Training pipeline
 
 We further used an iteration of the following notebook to push models and checkpoints to the Huggingface remote, since the builtin functionality had some issues.
 * [push_to_hub.ipynb](./push_to_hub.ipynb) -- Manual push to HF hub (we had some issues with Git LFS, see notes below)
@@ -45,4 +45,4 @@ Since we lost a considerable amount of time due to Colab's resource quotas we ex
 * Kaggle would have required us to run with a custom container since we had a lot of dependency version issues, and we experienced lots of random disconnects during training.
 * Modal kept timing out even when setting function timeout to 3h, which is the maximum. 
 
-We also tried to work with a smaller pre-trained model (whisper-base), but the required time did not change considerably and the performance seemed worse. The word error rate was around 10% worse after comparable training, a trained model (with 2000 steps) is available [here](https://huggingface.co/rscolati/whisper-base-sv).
+We also tried to work with a smaller pre-trained model (whisper-base), but the required time did not change considerably and the performance seemed worse. The word error rate was worse after comparable training (35%), a trained model (with 2000 steps) is available [here](https://huggingface.co/rscolati/whisper-base-sv).
