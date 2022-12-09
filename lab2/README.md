@@ -21,9 +21,10 @@ Model training is WIP, the current iteration is available for testing at https:/
 
 ### Notes and problems
 
-* Since push-to-hub seems broken (might be a Git LFS issue), we split the pipeline in two parts, data preparation and training, and used Google Drive to store the output (checkpoints and models) as to not lose the state whenever Colab disconnects
-* The push-to-hub is done manually since Git seems to have problems when pushing from Google Drive
-* We lost a considerable amount of time due to not having enough resources from Colab on a free account, alternatives tried
+* We decided to split data preparation from training, since we had to resume from checkpoints often due to Colab limitations. This way we can prepare the data once and re-use it.
+* Since push-to-hub seems broken (might be a Git LFS issue) we used Google Drive to store the output (checkpoints and models) as to not lose the state whenever Colab disconnects.
+* The push-to-hub is done manually since Git seems to have problems when pushing from Google Drive.
+* We lost a considerable amount of time due to not having enough resources from Colab on a free account, as alternatives we tried
     * Kaggle (would have required to run with a custom container since we had a lot of dependency version issues, also random disconnects)
     * Modal (kept timing out even when setting function timeout to 3h, which is the maximum)
 * We tried to work with a "smaller" model (whisper-base, trained/tuned model with 2000 steps [here](https://huggingface.co/rscolati/whisper-base-sv)) but the time did not change considerably and the performance seemed worse (WER around 10% worse after comparable training)
