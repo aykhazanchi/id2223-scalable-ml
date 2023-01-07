@@ -48,7 +48,7 @@ def get_temp(date):
 demo = gr.Interface(
     fn = predict,
     title = "NY Electricity Demand Prediction",
-    description ="Daily NY Electricity Demand Prediction",
+    description ="Daily NY electricity demand prediction, based on current date (day, holiday, ...) and (forecast) temperature average.",
     allow_flagging = "never",
     inputs = [],
     outputs = [
