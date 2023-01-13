@@ -91,18 +91,17 @@ def feature_elec():
 if not LOCAL:
     stub = modal.Stub()
     image = modal.Image.debian_slim().apt_install(["libgomp1"]).pip_install([
-        "hopsworks==3.0.4", "seaborn", "joblib", "scikit-learn", "xgboost", "dataframe-image", "pandas", "datetime", "requests", "python-dotenv"])
+        "hopsworks==3.0.4", "seaborn", "joblib", "scikit-learn==1.0.2", "xgboost==1.5", "dataframe-image", "pandas", "datetime", "requests", "python-dotenv"])
 
-    #@stub.function(image=image, schedule=modal.Period(hours=1), secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
-    @stub.function(image=image, secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
+    @stub.function(image=image, schedule=modal.Period(days=1), secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
+    #@stub.function(image=image, secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
     def modal_feature_elec():
-        print(os.environ["EIA_API_KEY"])
-        print(os.environ.get("EIA_API_KEY"))
         feature_elec()
 
 if __name__ == "__main__":
     if LOCAL:
         feature_elec()
     else:
-        with stub.run():
-            modal_feature_elec()
+        stub.deploy("modal_feature_elec")
+        #with stub.run():
+        #    modal_feature_elec()
