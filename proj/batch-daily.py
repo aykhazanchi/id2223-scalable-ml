@@ -175,7 +175,7 @@ def batch_elec():
 if not LOCAL:
     stub = modal.Stub()
     image = modal.Image.debian_slim().apt_install(["libgomp1"]).pip_install([
-        "hopsworks==3.0.4", "seaborn", "joblib", "scikit-learn", "xgboost", "dataframe-image", "matplotlib", "numpy", "pandas", "datetime", "requests", "os"])
+        "hopsworks==3.0.4", "seaborn", "joblib", "scikit-learn", "xgboost", "dataframe-image", "matplotlib", "numpy", "pandas", "datetime", "requests", "python-dotenv"])
     
     #@stub.function(image=image, schedule=modal.Period(hours=1), secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
     @stub.function(image=image, secret=modal.Secret.from_name("HOPSWORKS_API_KEY"))
@@ -186,4 +186,5 @@ if __name__ == "__main__":
     if LOCAL:
         batch_elec()
     else:
-        stub.run("modal_batch_elec")
+        with stub.run():
+            modal_batch_elec()
