@@ -113,7 +113,7 @@ def batch_elec():
     # the insertion was done asynchronously, so it will take ~1 min to land on App
     # TODO: commented for now since we can wait in a notebook, remember to uncomment
     #  if running e.g. in a modal job!
-    #history_df = pd.concat([history_df, monitor_df])
+    history_df = pd.concat([history_df, monitor_df], ignore_index=True)
     #display(history_df)
     print(history_df)
 
