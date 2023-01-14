@@ -8,26 +8,48 @@ Training data consists of the years 2017 - 2021. The data for historical daily d
 
 Along with the model's predictions we also provide the forecasted demand from EIA and find that our model's predicted values turn out to be fairly close to those of the official EIA forecast.
 
-## Links
-- Dashboard
+### Links
+
+TODO: short description of UIs
+
+- Monitoring dashboard
     - https://rscolati-electricity-monitoring.hf.space/
-- Interactive
+- Interactive prediction service
     - https://rscolati-electricity.hf.space/
-- Code
-    - Source code in `./proj`
 
 ## Pipelines
 
-**feature.ipynb**
+The prediction service is built using separate feature, training and inference pipelines, as described below. Hopsworks is used as feature store and model registry, daily instance generation and batch inference are deployed as functions in Modal and the UIs for online inference and monitoring are implemented using Hugginface spaces. The service architecture is (roughly) described in the following diagram.   
 
+![architecture diagram](report/service_arch.drawio.png)
 
-**training.ipynb**
+The source code for the feature, training, and inference pipelines as well as for the monitoring and online inference interfaces is implemented in [proj](.), and the main parts are briefly described below.  
 
+### Feature pipeline 
 
-**feature-daily.py**
+Implemented in [`feature.ipynb`](feature.ipynb) as a Jupyter notebook.
 
+TODO: short description  (data/features used etc.)
 
-**batch-daily.py**
+### Training pipeline
+
+Implemented in [`training.ipynb`](training.ipynb) as Jupyter notebook.
+
+TODO: short description (data prep pipeline, tuning, model&training)
+
+### Daily instance generation
+
+Implemented as Modal function in [`feature-daily.py`](feature-daily.py).
+
+TODO: short description 
+
+### Daily batch inference pipeline
+
+Implemented as Modal function in [`batch-daily.py`](batch-daily.py).
+
+TODO: short description
 
 
 ## Model
+
+TODO: can be briefly described in [Training](#training-pipeline)?
