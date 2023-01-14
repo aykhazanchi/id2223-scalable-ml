@@ -51,9 +51,22 @@ instances) is shown below.
 
 ### Training pipeline
 
-Implemented in [`training.ipynb`](training.ipynb) as Jupyter notebook.
+Implemented in [`training.ipynb`](training.ipynb) as Jupyter notebook. The model used for the predictions is 
+based on the XGBoost Regressor implemented in the 
+[xgboost](https://xgboost.readthedocs.io/en/stable/python/python_intro.html) Python package. The model is trained 
+on the historic demand and weather data prepared in the [Feature pipeline](#feature-pipeline). 
 
-TODO: short description (data prep pipeline, tuning, model&training)
+First the training data, retrieved from the feature store, is split in training (80%) and testing data (20%, 
+used later to estimate the performance of the model). No particular data preparation techniques are used
+except for imputation (even though we did not find any missing data) and Min-max normalization of the temperature. 
+To avoid leaking information from the test split to the training split and to create a re-usable data preparation
+pipeline which can be stored together with the model in the model registry, the data preparation is implemented
+through Scikit-learn pipelines and fitted to the training data only. 
+
+To find a reasonable hyperparameter configuration a randomized search with 10-fold cross validation is performed.
+The best performing model, as measured using the mean average error (MAE), is then dumped (including the data
+preparation pipeline) and uploaded to the model registry. The estimated MAE for the model, observed on the test 
+set, is around 14GWh (around 3-4%) which seems to be in line with EIA's own forecasts.
 
 ### Daily instance generation
 
@@ -66,8 +79,3 @@ TODO: short description
 Implemented as Modal function in [`batch-daily.py`](batch-daily.py).
 
 TODO: short description
-
-
-## Model
-
-TODO: can be briefly described in [Training](#training-pipeline)?
