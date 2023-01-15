@@ -81,8 +81,6 @@ def batch_elec():
     history_df = monitor_fg.read()
     # Add our prediction to the history, as the history_df won't have it -
     # the insertion was done asynchronously, so it will take ~1 min to land on App
-    # TODO: commented for now since we can wait in a notebook, remember to uncomment
-    #  if running e.g. in a modal job!
     history_df = pd.concat([history_df, monitor_df], ignore_index=True)
 
     # MAE
@@ -110,7 +108,7 @@ def batch_elec():
     dataset_api.upload("./df_ny_elec_prediction.png", "Resources/images", overwrite=True)
 
     # create MAE trend graph for UI and upload
-    latest_history_df = history_df.loc[-5:]  # TODO: might want/need to change this somewhen
+    latest_history_df = history_df.loc[-5:]
     no_entries = len(latest_history_df)
     mae = []
     for i in range(no_entries):
