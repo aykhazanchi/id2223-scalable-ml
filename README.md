@@ -5,7 +5,7 @@ This repository contains work done for the course [ID2223](https://id2223kth.git
 ## Repository Structure
 - The folder [`lab1`](lab1) contains code for Lab 1
 - The folder [`lab2`](lab2) contains code for Lab 2
-- The folder [`project`](project) contains code for the final project (WIP)
+- The folder [`proj`](proj) contains code for the final project
 
 ## Contributors
 - [Ayushman Khazanchi](https://github.com/aykhazanchi)
