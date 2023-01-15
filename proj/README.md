@@ -10,12 +10,12 @@ Along with the model's predictions we also provide the forecasted demand from EI
 
 ### Links
 
-TODO: short description of UIs
-
 - Monitoring dashboard
     - https://rscolati-electricity-monitoring.hf.space/
+    - The monitoring dashboard shows the historical record and performance of the model over time. The predictions are made on a daily basis.
 - Interactive prediction service
     - https://rscolati-electricity.hf.space/
+    - The interative prediction service is a UI to generate a prediction for the current day.  
 
 ## Pipelines
 
@@ -68,14 +68,10 @@ The best performing model, as measured using the mean average error (MAE), is th
 preparation pipeline) and uploaded to the model registry. The estimated MAE for the model, observed on the test 
 set, is around 14GWh (around 3-4%) which seems to be in line with EIA's own forecasts.
 
-### Daily instance generation
+### Daily feature pipeline
 
-Implemented as Modal function in [`feature-daily.py`](feature-daily.py).
+Implemented as a serverless function in [`feature-daily.py`](feature-daily.py). The daily feature pipeline runs on a daily basis as a scheduled function on [Modal](https://modal.com). The pipeline obtains daily demand and demand forecast from two days before the date of the run (for example, a run on Jan 15th will fetch values for Jan 13th). The EIA API is two days behind in terms of updating the actual demand which we require in order to ascertain the accuracy of our model's predictions. The feature pipeline also obtains the average temperature for that date and checks on whether the date is a bank holiday or not. Once all these features are collected and merged into a data frame it is then uploaded to the feature store.
 
-TODO: short description 
+### Daily batch pipeline
 
-### Daily batch inference pipeline
-
-Implemented as Modal function in [`batch-daily.py`](batch-daily.py).
-
-TODO: short description
+Implemented as a serverless function in `batch-daily.py`](batch-daily.py). The daily batch inference pipeline runs on a daily basis as a scheduled function on [Modal](https://modal.com). The pipeline pulls the feature group from the feature store and obtains the latest feature set added. The batch inference runs a prediction on this latest feature set and we compare the accuracy of our model by evaluating the Mean Absolute Error between the prediction and the actual demand. As part of the batch daily pipeline we also pull the EIA forecast for that date from the API and display the predicted demand, actual demand, and the EIA forecasted demand as part of our monitoring UI. This is done for evaluation purposes to compare how close our model is to the EIA's own forecast model. We find in some cases our model's predicted demand value is closer to the actual demand than the EIA forecast. Along with the historical prediction chart, the batch pipeline also creates the MAE trend chart and a table with the historical prediction records. All of this is then displayed on the Monitoring UI.

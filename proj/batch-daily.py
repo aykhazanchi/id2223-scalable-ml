@@ -19,7 +19,7 @@ def batch_elec():
     fs = project.get_feature_store()
 
     # get feature group
-    # TODO: we could also just read the feature view but that doesn't include the
+    #  Note: we could also just read the feature view but that doesn't include the
     #  date of the latest entry. Shouldn't be a problem if both run on the same day
     #  but just to be sure we'll get the complete entry from the group (see below).
     feature_group = fs.get_feature_group(name="ny_elec", version=1)
