@@ -17,18 +17,37 @@ model_dir = model.download()
 model = joblib.load(model_dir + "/ny_elec_model.pkl")
 
 
-def predict():
-    today = get_date()
-    temp = get_temp(today)
+def predict(today, temp, holiday):
+    if str(today) == '':
+        today = get_date()
+    if str(temp) == '':
+        temp = get_temp(today)
+    
     df = pd.DataFrame({"date": [today], "temperature": [temp]})
     df['date'] = pd.to_datetime(df['date'], infer_datetime_format=True)
     df['day'] = df['date'].dt.dayofweek
     df['month'] = df['date'].dt.month
-    holidays = calendar().holidays(start=df['date'].min(), end=df['date'].max())
-    df['holiday'] = df['date'].isin(holidays).astype(int)
-
+    
+    if holiday == 0 or holiday == 1:
+        df['holiday'] = int(holiday)
+    else:
+        holidays = calendar().holidays(start=df['date'].min(), end=df['date'].max())
+        df['holiday'] = df['date'].isin(holidays).astype(int)
+        
     demand = model.predict(df.drop(columns=['date']))[0]
-    return [today, temp, demand]
+
+    holiday_label = 'default'
+    if holiday == 0:
+        holiday_label = 'User selection: working day'
+    elif holiday == 1:
+        holiday_label = 'User selection: bank holiday'
+    elif holiday == 2:
+        if int(df['holiday']) == 0:
+            holiday_label = 'US Federal Holiday calendar: working day'
+        else:
+            holiday_label = 'US Federal Holiday calendar: bank holiday'
+
+    return [today, temp, holiday_label, demand]
 
 
 def get_date():
@@ -50,10 +69,15 @@ demo = gr.Interface(
     title = "NY Electricity Demand Prediction",
     description ="Daily NY electricity demand prediction, based on current date (day, holiday, ...) and (forecast) temperature average.",
     allow_flagging = "never",
-    inputs = [],
+    inputs = [
+        gr.Textbox(label="Date"),
+        gr.Textbox(label="Temperature forecast [℃]"),
+        gr.Radio(choices=["Working day", "Bank holiday", "Check against calendar"], value="Check against calendar", type="index", label="Type of day"),
+    ],
     outputs = [
         gr.Textbox(label="Date"),
         gr.Textbox(label="Temperature forecast [℃]"),
+        gr.Textbox(label="Type of day"),
         gr.Textbox(label="Predicted demand [MWh]"),
     ]
 )

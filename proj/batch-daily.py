@@ -105,6 +105,9 @@ def batch_elec():
     plt.title('Predicted and actual demands for {}'.format(monitor_df['prediction_date'][0]))
     fig = pred_plot.get_figure()
     fig.savefig("./df_ny_elec_prediction.png")
+    plt.clf()
+    plt.cla()
+    plt.close()
     dataset_api.upload("./df_ny_elec_prediction.png", "Resources/images", overwrite=True)
 
     # create MAE trend graph for UI and upload
@@ -115,13 +118,18 @@ def batch_elec():
         df = latest_history_df.loc[:i]
         mae.append([mean_absolute_error(df['actual'], df['prediction']),
                     mean_absolute_error(df['actual'], df['forecast_eia']),
-                    pd.to_datetime(df['datetime'][i]).date()])
-    mae_df = pd.DataFrame(mae, columns=['Prediction', 'EIA forecast', 'Date'])
+                    pd.to_datetime(df['prediction_date'][i]).date()])
+    mae_df = pd.DataFrame(mae, columns=['Prediction', 'EIA Forecast', 'Date'])
+    mae_df['Date'] = pd.to_datetime(mae_df['Date'])
+    print(mae_df)
     mae_plot = sns.lineplot(data=mae_df.melt(id_vars=['Date'],
-                                             value_vars=['Prediction', 'EIA forecast']),
+                                             value_vars=['Prediction', 'EIA Forecast']),
                             x='Date', y='value', hue='variable')
     plt.ylabel('Demand [MWh]')
+    plt.xlabel('Date')
+    plt.xticks(rotation=45)
     plt.title('Mean absolute error (MAE) for last {} predictions'.format(no_entries))
+    plt.tight_layout()
     mae_plot.legend().set_title('MAE')
     fig = mae_plot.get_figure()
     fig.savefig("./df_ny_elec_mae.png")

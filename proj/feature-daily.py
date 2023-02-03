@@ -57,7 +57,7 @@ def feature_elec():
 
     # Get bank holidays
     holidays = calendar().holidays(start=merged_df['date'].min(), end=merged_df['date'].max())
-    merged_df['holiday'] = merged_df['date'].isin(holidays).astype('int32')
+    merged_df['holiday'] = merged_df['date'].isin(holidays).astype('int')
     print("Combined data: \n{}".format(merged_df.head()))
 
     project = hopsworks.login()
